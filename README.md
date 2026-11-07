@@ -299,3 +299,33 @@ $ docker stats
 결과 : 
 CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT    MEM %     NET I/O        BLOCK I/O     PIDS 65a9eb2fe449   mybox     0.00%     3.84MiB / 2.765GiB   0.14%     1.7kB / 126B   20.6MB / 0B   1
 
+(hello-world 실행 성공)
+PS C:\WINDOWS\System32> docker run hello-world
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+(컨테이너 실행 및 내부 간단 멍령)
+PS C:\WINDOWS\System32> docker run -it --name mybox ubuntu
+root@8926b9c0dcdb:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@8926b9c0dcdb:/# echo "hello from container"
+hello from container
+root@8926b9c0dcdb:/# cat /etc/os-release
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04.1 LTS (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+root@8926b9c0dcdb:/#
+
+(attach와 exec의 차이)
+-attach : 특정 컨테이너의 기존 bash로 이동하는것.
+-exec : 컨테이너 내에서 기존 bash 외에 새로운 bash를 만든다. 이때 bash는 명령어를 수행할 수 있는 기능.
