@@ -1,4 +1,4 @@
-<img width="927" height="553" alt="image" src="https://github.com/user-attachments/assets/fd825a4c-47b3-4bab-a539-dc1dd7610b18" />##1. 프로젝트 개요
+##1. 프로젝트 개요
 -터미널, Docker, Git 세 가지를 직접 손으로 세팅해, 실행 결과로 핵심 흐름을 확인한다.
 
 ##2. 실행 환경
@@ -10,11 +10,10 @@
 ##3. 수행 체크리스트
 [O]:터미널 기본 조작 및 폴더 구성
 [O]:권한 변경 실습
-[]Docker 설치/점검
+[O]Docker 설치/점검
 [O]hello-world 실행
-[]Dockerfile 빌드/실행
-[]포트 매핑 접속(2회)
-[]바인드 마운트 반영
+[O]Dockerfile 빌드/실행
+[O]포트 매핑 접속(2회)
 [O]볼륨 영속성
 [O]Git 설정 + VSCode GitHub 연동
 
@@ -477,4 +476,3 @@ PS C:\Users\전준형\Desktop\Dockerfile>
 
 8.Git 설정 및 Github 연동
 <img width="400" height="69" alt="image" src="https://github.com/user-attachments/assets/3eee8c6e-6863-4685-88c5-ae82c9da1174" />
-
