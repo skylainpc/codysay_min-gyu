@@ -585,7 +585,97 @@ PS C:\Users\전준형\Desktop\Dockerfile> docker run -d -p 8080:80 --name my-web
 
 
 
-10.여러가지 설명
+10.(포트 사용 프로세스 확인 및 포트 해제)
+PS C:\Users\전준형> netstat -ano | findstr :8080
+  TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       4732
+  TCP    127.0.0.1:8080         0.0.0.0:0              LISTENING       13304
+  TCP    [::]:8080              [::]:0                 LISTENING       4732
+  TCP    [::1]:8080             [::]:0                 LISTENING       13304
+PS C:\Users\전준형> tasklist /fi "pid eq 13304"
+
+이미지 이름                    PID 세션 이름              세션#  메모리 사용
+========================= ======== ================ =========== ============
+wslrelay.exe                 13304 Console                    2     10,024 K
+PS C:\Users\전준형> taskkill /f /pid 13304
+성공: 프로세스(PID 13304)가 종료되었습니다.
+PS C:\Users\전준형> netstat -ano | findstr :8080
+  TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       4732
+  TCP    [::]:8080              [::]:0                 LISTENING       4732
+
+
+
+
+
+11.PS C:\Users\전준형\Desktop\Dockerfile> ls      #폴더 내 파일 확인(기존 파일 2개)
+
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-08  오전 11:27             73 Dockerfile
+-a----      2026-11-08  오전 11:49            272 index.html
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> tar -cvzf backup_project.tar.gz .        #폴더 내 파일 압축
+a .
+a ./backup_project.tar.gz
+a ./Dockerfile
+a ./index.html
+PS C:\Users\전준형\Desktop\Dockerfile> ls     #폴더 내 파일 확인(기존 파일 2개 + 압축 파일 1개)
+
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-08   오후 2:11            566 backup_project.tar.gz
+-a----      2026-11-08  오전 11:27             73 Dockerfile
+-a----      2026-11-08  오전 11:49            272 index.html
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> rm index.html     #index.html 파일 삭제
+PS C:\Users\전준형\Desktop\Dockerfile> ls                #폴더 내 파일 확인(기존 파일 1개 + 압축 파일 1개)
+
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-08   오후 2:11            566 backup_project.tar.gz
+-a----      2026-11-08  오전 11:27             73 Dockerfile
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> tar -xvzf backup_project.tar.gz        #파일 복구
+x ./
+x ./backup_project.tar.gz: Can't unlink already-existing object: Permission denied
+x ./Dockerfile
+x ./index.html
+tar.exe: Error exit delayed from previous errors
+PS C:\Users\전준형\Desktop\Dockerfile> ls       ##폴더 내 파일 확인(기존 파일 1개 + 압축 파일 1개 + 복구 파일 1개)
+
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-08   오후 2:11            566 backup_project.tar.gz
+-a----      2026-11-08  오전 11:27             73 Dockerfile
+-a----      2026-11-08  오전 11:49            272 index.html
+
+
+PS C:\Users\전준형\Desktop\Dockerfile>
+  
+
+
+
+
+
+12.여러가지 설명
 *절대경로, 상대경로 차이
 -절대경로 : 현재 위치에 상관없이 특정 위치에 폴더, 디렉토리 등을 만들어라는 의미로 위치의 혼동은 없지만, 사용자 이름등이 바뀌면은 동작하지 않고 상대경로에 비해 상대적으로 느리다.
 -상대경로 : 현재 위치를 기준으로 한 위치로, 절대경로에 비해 속도가 매우 빠르다.
@@ -625,3 +715,10 @@ project-root/
 ├── results/        # 코드 실행 결과물 (그래프, 모델 저장 파일, 로그)
 ├── .gitignore      # Git 관리 제외 대상 설정 (대용량 데이터, 보안 파일 등)
 └── README.md       # 프로젝트 개요 및 구조 설명 문서 (현재 파일)
+
+
+
+
+
+
+
