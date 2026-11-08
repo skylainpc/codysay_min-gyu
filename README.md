@@ -507,7 +507,6 @@ PS C:\Users\전준형\Desktop\Dockerfile>
 
 
 
-
 9.트러블슈팅(VS Code terminal)
 (1)상황 : my-web이라는 컨테이너를 만드려고 하는데, 에러 코드에 my-web이라는 이름의 컨테이너가 이미 있다고 출력
 (2)확인 및 조치 : my-web 컨테이너를 rm을 이용해 삭제 한 후, 다시 형성시킨 후 "docker run -d -p 8080:80 --name my-web my-web"코드를 입력하니 정상 동작
@@ -586,7 +585,7 @@ PS C:\Users\전준형\Desktop\Dockerfile> docker run -d -p 8080:80 --name my-web
 
 
 
-9.여러가지 설명
+10.여러가지 설명
 *절대경로, 상대경로 차이
 -절대경로 : 현재 위치에 상관없이 특정 위치에 폴더, 디렉토리 등을 만들어라는 의미로 위치의 혼동은 없지만, 사용자 이름등이 바뀌면은 동작하지 않고 상대경로에 비해 상대적으로 느리다.
 -상대경로 : 현재 위치를 기준으로 한 위치로, 절대경로에 비해 속도가 매우 빠르다.
@@ -604,6 +603,25 @@ PS C:\Users\전준형\Desktop\Dockerfile> docker run -d -p 8080:80 --name my-web
 *이미지, 컨테이너의 차이
 -택배 상자로 설명하면 이미지는 간단하게 포장 설명서로 실행되지 않는 정적인 파일 묶음이고, 컨테이너는 포장된 상자로 이미지가 메모리에 올라가 프로세스로 실행 중인 상태이다. 즉 이미지는 APP 실행에 필요한 모든 환경이 저장된 '읽기 전용 설계도'이며, 컨테이너는 이 이미지를 복제해 그 위에 '쓰기 가능한 레이어'를 얹어 실제 동작시킨다.
 
-*
+*git remote -v 및 git push 실행
+PS C:\Users\전준형> git remote -v
+origin  [https://github.com/skylainpc?tab=repositories] (fetch)
+origin  [https://github.com/skylainpc?tab=repositories] (push)
 
+PS C:\Users\전준형> git push
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
 
+    git push --set-upstream origin main
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+*프로젝트 디렉토리 구조 및 설명
+project-root/
+├── data/           # 프로젝트에 사용되는 데이터셋 (원본 및 전처리 데이터)
+├── src/            # 실제 실행 가능한 소스 코드 (.py, .ipynb 등)
+├── docs/           # 프로젝트 관련 문서 및 매뉴얼
+├── results/        # 코드 실행 결과물 (그래프, 모델 저장 파일, 로그)
+├── .gitignore      # Git 관리 제외 대상 설정 (대용량 데이터, 보안 파일 등)
+└── README.md       # 프로젝트 개요 및 구조 설명 문서 (현재 파일)
