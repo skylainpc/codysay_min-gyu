@@ -132,6 +132,30 @@ $ ls -l hello.txt
 결과 : -r--r--r-- 1 전준형 197121 12 Nov  7 17:42 hello.txt
 추가 설명 : windows의 경우 read 권한까지 빼앗는 경우는 거의 없기 떄문에 chmod 000을 실행하더라고 read 권한이 사라지지 않는다.
 
+(hello-world 실행)(Powershell)
+PS C:\WINDOWS\System32> docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
 
 
 
@@ -149,6 +173,8 @@ root@5d6230ba8310:/temp# ls -l
 total 4
 -rw------- 1 root root    0 Nov  8 01:34 file.txt
 drwx------ 2 root root 4096 Nov  8 01:34 mydir
+
+*rwx는 각각 read(읽기), write(쓰기), execute(실행) 권한을 의미하며, chmod 755의 755는 앞부터 각각 소유주, 그룹, 그 외(others)에서 rwx, rx, rx 권한을 준다는 의미이다.
 
 
 *exit, exec, stop을 각각 진행했을 때 컨테이너 상태 차이
@@ -476,3 +502,108 @@ PS C:\Users\전준형\Desktop\Dockerfile>
 
 8.Git 설정 및 Github 연동
 <img width="400" height="69" alt="image" src="https://github.com/user-attachments/assets/3eee8c6e-6863-4685-88c5-ae82c9da1174" />
+
+
+
+
+
+
+9.트러블슈팅(VS Code terminal)
+(1)상황 : my-web이라는 컨테이너를 만드려고 하는데, 에러 코드에 my-web이라는 이름의 컨테이너가 이미 있다고 출력
+(2)확인 및 조치 : my-web 컨테이너를 rm을 이용해 삭제 한 후, 다시 형성시킨 후 "docker run -d -p 8080:80 --name my-web my-web"코드를 입력하니 정상 동작
+
+PS C:\Users\전준형\Desktop\Dockerfile> docker run -d -p 8080:80 --name my-web my-web
+docker: Error response from daemon: Conflict. The container name "/my-web" is already in use by container "ef33068f4004c7583555b819b91f284ffbd829730a4fbc1d2c039734462a6f32". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+
+What's next:
+    Debug this container error with Gordon → docker ai "help me fix this container error"
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> Get-ChildItem C:\Users\전준형\Desktop\Dockerfile
+
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name                                                               
+----                 -------------         ------ ----                                                               
+-a----      2026-11-08  오전 11:27             73 Dockerfile                                                         
+-a----      2026-11-08  오전 11:11              0 index.html                                                         
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> Get-ChildItem index.html
+               
+
+    디렉터리: C:\Users\전준형\Desktop\Dockerfile
+
+
+Mode                 LastWriteTime         Length Name                                                               
+----                 -------------         ------ ----                                                               
+-a----      2026-11-08  오전 11:49            272 index.html                                                         
+
+
+PS C:\Users\전준형\Desktop\Dockerfile> docker stop my-web
+my-web
+PS C:\Users\전준형\Desktop\Dockerfile> docker rm my-web
+my-web
+PS C:\Users\전준형\Desktop\Dockerfile> docker build -t my-web
+ERROR: docker: 'docker buildx build' requires 1 argument
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Run 'docker buildx build --help' for more information
+
+What's next:
+    Debug this build failure with Gordon → docker ai "help me fix this build failure"
+PS C:\Users\전준형\Desktop\Dockerfile> docker build -t my-web .
+[+] Building 3.1s (7/7) FINISHED                                                                 docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                             0.1s
+ => => transferring dockerfile: 110B                                                                             0.0s
+ => [internal] load metadata for docker.io/library/nginx:latest                                                  1.6s
+ => [internal] load .dockerignore                                                                                0.0s
+ => => transferring context: 2B                                                                                  0.0s
+ => CACHED [1/2] FROM docker.io/library/nginx:latest@sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf675  0.1s
+ => => resolve docker.io/library/nginx:latest@sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486af  0.1s
+ => [internal] load build context                                                                                0.0s
+ => => transferring context: 311B                                                                                0.0s
+ => [2/2] COPY index.html /usr/share/nginx/html/index.html                                                       0.1s
+ => exporting to image                                                                                           0.8s
+ => => exporting layers                                                                                          0.2s
+ => => exporting manifest sha256:e9d0146a674874aea0c7b96102f9c9a0a4f20f125e726ef31383b3c7b2b11504                0.0s
+ => => exporting config sha256:692d1647afa16e81462a95168697de7e922853551389aa952bb6f7dac5b2010c                  0.0s
+ => => exporting attestation manifest sha256:abae44be4342b26c391412efc701dd337dc8ac4d72aa91e1295d92edb6ba0a3c    0.1s
+ => => exporting manifest list sha256:9abf93443be885ab47611bafb204a6788fac52a8a02b9da4a7bad6977ae26ddb           0.0s
+ => => naming to docker.io/library/my-web:latest                                                                 0.0s
+ => => unpacking to docker.io/library/my-web:latest                                                              0.2s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/986h7ym5fjrhgtv7px8hq848v
+PS C:\Users\전준형\Desktop\Dockerfile> docker run -d -p 8080:80 --name my-web my-web
+42d1de6d44caf2e4937a01f5f8b4745fc89746a6a483723e98fababc4357e43c
+
+
+
+
+
+9.여러가지 설명
+*절대경로, 상대경로 차이
+-절대경로 : 현재 위치에 상관없이 특정 위치에 폴더, 디렉토리 등을 만들어라는 의미로 위치의 혼동은 없지만, 사용자 이름등이 바뀌면은 동작하지 않고 상대경로에 비해 상대적으로 느리다.
+-상대경로 : 현재 위치를 기준으로 한 위치로, 절대경로에 비해 속도가 매우 빠르다.
+
+*호스트 경로 VS 컨테이너 경로 선택 근거
+-호스트 경로의 경우 사용자마다 다르기 때문에 상대경로를 이용해 실시간으로 소스 코드를 수정하는것이 좋다.
+-컨테이너 경로의 경우 사용자가 달라도 동일한 경로를 가지기 때문에 절대경로를 이용해도 재현성이 유지된다.
+
+*네트워크 네임스페이스, 포트포워딩
+-네트워크 네임스페이스 : 리눅스의 네임스페이스 기술을 사용해 호스트와 분리된 독립된 공간을 가진다. 그렇기 때문에 여러 컨테이너가 동일한 포트를 사용하더라도 서로 충돌하지 않지만, 격리되어있어 외부(호스트)에서는 컨테이너 내부로 직접 접근할 수 없다.
+-포트포워딩 : 격리된 컨테이너 내부로 트래픽을 보내기 위해 포트포워딩을 사용한다. 측 호스트의 특정 포트와 컨테이너의 특정 포트를 연결하는 '통로'를 만드는 과정이다.
+-호스트-컨테이너 연결 방법
+->외부 사용자가 호스트의 IP와 지정되니 포트로 접속 시도 시, 호스트 OS의 커널은 미리 설정된 포트포워딩 규칙을 확인한다. 이후 호스트는 받은 패킷의 목적지 주소를 컨테이너의 가상 IP와 내부 포트 번호로 변환해 전달한 후 컨테이너가 처리한 결과는 다시 역순으로 호스트를 거쳐 사용자에게 전달된다.
+
+*이미지, 컨테이너의 차이
+-택배 상자로 설명하면 이미지는 간단하게 포장 설명서로 실행되지 않는 정적인 파일 묶음이고, 컨테이너는 포장된 상자로 이미지가 메모리에 올라가 프로세스로 실행 중인 상태이다. 즉 이미지는 APP 실행에 필요한 모든 환경이 저장된 '읽기 전용 설계도'이며, 컨테이너는 이 이미지를 복제해 그 위에 '쓰기 가능한 레이어'를 얹어 실제 동작시킨다.
+
+*
+
+
